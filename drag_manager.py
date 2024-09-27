@@ -1,4 +1,4 @@
-import tkinter as tk
+# import tkinter as tk
 from tkinter import ttk
 
 
@@ -7,23 +7,22 @@ class DragManager:
     y_diff = 0
     cursors = dict()
 
-    def add_dragable(self, widget):
+    def add_dragable(self, widget: ttk.Widget):
         widget.bind("<ButtonPress-1>", self.on_start)
         widget.bind("<B1-Motion>", self.on_drag)
         widget.bind("<ButtonRelease-1>", self.on_drop)
         self.cursors[widget] = widget['cursor']
-        widget.configure(cursor="hand1")
+        widget.configure(cursor="hand1") #type: ignore
         
     def remove_dragable(self, widget: ttk.Widget):
         widget.unbind("<ButtonPress-1>")
         widget.unbind("<B1-Motion>")
         widget.unbind("<ButtonRelease-1>")
-        widget.configure(cursor=self.cursors.get(widget) or "")
+        widget.configure(cursor=self.cursors.get(widget) or "") #type: ignore
 
     def on_start(self, event):
         # you could use this method to create a floating window
         # that represents what is being dragged.
-        # pass
         x, y = event.widget.winfo_pointerxy()
         self.target = event.widget.winfo_containing(x, y)
         # print(
@@ -53,7 +52,7 @@ class DragManager:
         self.target.place(x=new_x, y=new_y)
         self.target.configure(cursor="fleur")
 
-    def on_drop(self, event):
+    def on_drop(self, _):
         # find the widget under the cursor
         # x, y = event.widget.winfo_pointerxy()
         # target = event.widget.winfo_containing(x, y)
